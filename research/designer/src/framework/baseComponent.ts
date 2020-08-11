@@ -4,9 +4,14 @@ import $ from 'jquery';
 @Component
 export default class BaseComponent extends Vue {
     /**
-     * 临时组件
+     * 子组件列表
      */
-    tempComponent = null;
+    children: any = [];
+
+    /**
+     * 原始风格
+     */
+    originalStyle: any = null;
 
     mounted() {
         if (typeof this.$el !== 'undefined' && this.$el !== null) {
@@ -16,24 +21,25 @@ export default class BaseComponent extends Vue {
     }
 
     /**
-     * 添加临时组件
+     * 添加组件
      *
      * @protected
      * @param {*} component 组件
      * @memberof BaseComponent
      */
-    protected _attachTempComponent(component: any): void {
-        this.tempComponent = component;
+    protected _attachComponent(component: any): void {
+        this.children.push(component);
     }
 
     /**
      * 删除临时组件
      *
      * @protected
+     * @param {*} component 组件
      * @memberof BaseComponent
      */
-    protected _detachTempComponent(): void {
-        this.tempComponent = null;
+    protected _detachComponent(component: any): void {
+        this.children.splice($.inArray(component, this.children), 1);
     }
 
     /**
@@ -45,6 +51,16 @@ export default class BaseComponent extends Vue {
      */
     private _onMouseEnter(e: MouseEvent): void {
         console.debug('mouseenter');
+        this.originalStyle = $(this.$el).css([
+            'border-color',
+            'border-weight',
+            'border-style'
+        ]);
+        $(this.$el).css({
+            'border-color': '#C1E0FF',
+            'border-weight': '1px',
+            'border-style': 'solid'
+        });
         e.stopPropagation();
     }
 
@@ -57,6 +73,7 @@ export default class BaseComponent extends Vue {
      */
     private _onMouseLeave(e: MouseEvent): void {
         console.debug('mouseleave');
+        $(this.$el).css(this.originalStyle);
         e.stopPropagation();
     }
 }
