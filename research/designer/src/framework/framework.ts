@@ -10,7 +10,7 @@ const framework = {
     install: function(vue: typeof Vue): void {
         vue.prototype.$framework = {
             foo: function() {
-                alert('foo');
+                console.debug('foo');
             }
         };
     }
