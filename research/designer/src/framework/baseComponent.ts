@@ -6,7 +6,7 @@ export default class BaseComponent extends Vue {
     /**
      * 子组件列表
      */
-    children: any = [];
+    children: Array<Vue> = [];
 
     /**
      * 原始风格
@@ -27,7 +27,7 @@ export default class BaseComponent extends Vue {
      * @param {*} component 组件
      * @memberof BaseComponent
      */
-    protected _attachComponent(component: any): void {
+    protected _attachComponent(component: Vue): void {
         this.children.push(component);
     }
 
@@ -38,7 +38,7 @@ export default class BaseComponent extends Vue {
      * @param {*} component 组件
      * @memberof BaseComponent
      */
-    protected _detachComponent(component: any): void {
+    protected _detachComponent(component: Vue): void {
         this.children.splice($.inArray(component, this.children), 1);
     }
 
@@ -51,16 +51,8 @@ export default class BaseComponent extends Vue {
      */
     private _onMouseEnter(e: MouseEvent): void {
         console.debug('mouseenter');
-        this.originalStyle = $(this.$el).css([
-            'border-color',
-            'border-weight',
-            'border-style'
-        ]);
-        $(this.$el).css({
-            'border-color': '#C1E0FF',
-            'border-weight': '1px',
-            'border-style': 'solid'
-        });
+        this.originalStyle = $(this.$el).css(['background-color']);
+        $(this.$el).css({'background-color': '#C1E0FF'});
         e.stopPropagation();
     }
 

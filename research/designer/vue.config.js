@@ -16,5 +16,12 @@ module.exports = {
                 '@': resolve('src')
             }
         }
+    },
+    css: {
+        loaderOptions: {
+            less: {
+                javascriptEnabled: true
+            }
+        }
     }
 };
