@@ -11,11 +11,14 @@ export default class BaseComponent extends Vue {
     /**
      * 原始风格
      */
+    // eslint-disable-next-line
     originalStyle: any = null;
 
     mounted() {
         if (typeof this.$el !== 'undefined' && this.$el !== null) {
+            // eslint-disable-next-line
             $(this.$el).mouseenter((e: any): void => this._onMouseEnter(e));
+            // eslint-disable-next-line
             $(this.$el).mouseleave((e: any): void => this._onMouseLeave(e));
         }
     }
@@ -52,7 +55,7 @@ export default class BaseComponent extends Vue {
     private _onMouseEnter(e: MouseEvent): void {
         console.debug('mouseenter');
         this.originalStyle = $(this.$el).css(['background-color']);
-        $(this.$el).css({'background-color': '#C1E0FF'});
+        $(this.$el).css({ 'background-color': '#C1E0FF' });
         e.stopPropagation();
     }
 

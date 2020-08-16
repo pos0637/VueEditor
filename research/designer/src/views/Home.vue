@@ -16,9 +16,14 @@ import HelloWorld from '@/components/HelloWorld.vue';
     components: { HelloWorld }
 })
 export default class Home extends Vue {
+    paths: Array<string> = [
+        '@/views/TestComponent.vue',
+        '@/views/TestComponent.vue',
+        '@/views/TestComponent.vue'
+    ];
+
     async foo() {
-        const loader = await import(`@/views/TestComponent.vue`);
-        console.debug(loader);
+        this.$framework.generateComponent(this.paths[0]);
     }
 }
 </script>
