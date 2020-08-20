@@ -72,3 +72,13 @@ export default class BaseComponent extends Vue {
         e.stopPropagation();
     }
 }
+
+/**
+ * 拖拽数据
+ *
+ * @export
+ * @interface DragData
+ */
+export interface DragData {
+    component: string;
+}
