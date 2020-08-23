@@ -30,7 +30,7 @@ export default class BaseComponent extends Vue {
      * @param {*} component 组件
      * @memberof BaseComponent
      */
-    protected _attachComponent(component: Vue): void {
+    public attachComponent(component: Vue): void {
         this.children.push(component);
     }
 
@@ -41,7 +41,7 @@ export default class BaseComponent extends Vue {
      * @param {*} component 组件
      * @memberof BaseComponent
      */
-    protected _detachComponent(component: Vue): void {
+    public detachComponent(component: Vue): void {
         this.children.splice($.inArray(component, this.children), 1);
     }
 
@@ -53,7 +53,8 @@ export default class BaseComponent extends Vue {
      * @memberof BaseComponent
      */
     private _onMouseEnter(e: MouseEvent): void {
-        console.debug('mouseenter');
+        console.debug('_onMouseEnter');
+        this.$framework.focusComponent = this;
         this.originalStyle = $(this.$el).css(['background-color']);
         $(this.$el).css({ 'background-color': '#C1E0FF' });
         e.stopPropagation();
@@ -67,7 +68,11 @@ export default class BaseComponent extends Vue {
      * @memberof BaseComponent
      */
     private _onMouseLeave(e: MouseEvent): void {
-        console.debug('mouseleave');
+        console.debug('_onMouseLeave');
+        if (this.$framework.focusComponent === this) {
+            // this.$framework.focusComponent = null;
+        }
+
         $(this.$el).css(this.originalStyle);
         e.stopPropagation();
     }

@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import BaseComponent, { DragData } from '@/framework/baseComponent';
 
 declare module 'vue/types/vue' {
     interface Vue {
@@ -12,7 +13,15 @@ declare module 'vue/types/vue' {
  * @class Framework
  */
 class Framework {
-    foo() {
+    /**
+     * 焦点组件
+     *
+     * @type {(BaseComponent | null)}
+     * @memberof Framework
+     */
+    public focusComponent: BaseComponent | null = null;
+
+    public foo() {
         console.debug('foo');
     }
 
@@ -24,7 +33,7 @@ class Framework {
      * @return {*}  {Promise<Vue>} 组件
      * @memberof Framework
      */
-    async generateComponent(
+    public async generateComponent(
         path: string,
         propsData: object | null = null
     ): Promise<Vue> {
@@ -36,6 +45,22 @@ class Framework {
         }
 
         return new clazz(options);
+    }
+
+    /**
+     * 添加组件
+     *
+     * @param {DragData} data 拖拽数据
+     * @return {*} {Promise<void>}
+     * @memberof Framework
+     */
+    public async attachComponent(data: DragData): Promise<void> {
+        if (this.focusComponent === null) {
+            return;
+        }
+
+        const component = await this.generateComponent(data.component);
+        this.focusComponent.attachComponent(component);
     }
 }
 
