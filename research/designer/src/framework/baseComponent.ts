@@ -1,3 +1,4 @@
+import { Constructor } from 'vue/types/options';
 import { Component, Vue } from 'vue-property-decorator';
 import $ from 'jquery';
 
@@ -6,7 +7,7 @@ export default class BaseComponent extends Vue {
     /**
      * 子组件列表
      */
-    children: Array<Vue> = [];
+    children: Array<Constructor> = [];
 
     /**
      * 原始风格
@@ -27,22 +28,26 @@ export default class BaseComponent extends Vue {
      * 添加组件
      *
      * @protected
-     * @param {*} component 组件
+     * @param {*} clazz 组件类型
      * @memberof BaseComponent
      */
-    public attachComponent(component: Vue): void {
-        this.children.push(component);
+    public attachComponent(clazz: Constructor): void {
+        this.children.push(clazz);
     }
 
     /**
-     * 删除临时组件
+     * 设置背景高亮
      *
-     * @protected
-     * @param {*} component 组件
+     * @param {boolean} highlight 是否高亮
      * @memberof BaseComponent
      */
-    public detachComponent(component: Vue): void {
-        this.children.splice($.inArray(component, this.children), 1);
+    public setBackgroundHighlight(highlight: boolean): void {
+        if (highlight) {
+            this.originalStyle = $(this.$el).css(['background-color']);
+            $(this.$el).css({ 'background-color': '#C1E0FF' });
+        } else if (this.originalStyle !== null) {
+            $(this.$el).css(this.originalStyle);
+        }
     }
 
     /**
@@ -54,9 +59,12 @@ export default class BaseComponent extends Vue {
      */
     private _onMouseEnter(e: MouseEvent): void {
         console.debug('_onMouseEnter');
+        if (this.$framework.focusComponent !== null) {
+            this.$framework.focusComponent.setBackgroundHighlight(false);
+        }
+
         this.$framework.focusComponent = this;
-        this.originalStyle = $(this.$el).css(['background-color']);
-        $(this.$el).css({ 'background-color': '#C1E0FF' });
+        this.setBackgroundHighlight(true);
         e.stopPropagation();
     }
 
@@ -69,11 +77,7 @@ export default class BaseComponent extends Vue {
      */
     private _onMouseLeave(e: MouseEvent): void {
         console.debug('_onMouseLeave');
-        if (this.$framework.focusComponent === this) {
-            // this.$framework.focusComponent = null;
-        }
-
-        $(this.$el).css(this.originalStyle);
+        this.setBackgroundHighlight(false);
         e.stopPropagation();
     }
 }

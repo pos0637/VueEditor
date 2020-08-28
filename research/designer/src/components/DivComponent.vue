@@ -16,8 +16,8 @@
 </style>
 
 <script lang="ts">
-import BaseComponent from '@/framework/baseComponent';
 import { Component } from 'vue-property-decorator';
+import BaseComponent from '@/framework/baseComponent';
 
 @Component
 export default class DivComponent extends BaseComponent {}

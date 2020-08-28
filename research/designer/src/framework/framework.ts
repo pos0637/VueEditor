@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import BaseComponent, { DragData } from '@/framework/baseComponent';
+import { Constructor } from 'vue/types/options';
 
 declare module 'vue/types/vue' {
     interface Vue {
@@ -26,6 +27,18 @@ class Framework {
     }
 
     /**
+     * 创建组件类型
+     *
+     * @param {string} path 路径
+     * @return {*}  {Constructor} 组件类型
+     * @memberof Framework
+     */
+    public async generateComponentClass(path: string): Promise<Constructor> {
+        const loader = import(`@/${path.substring(2, path.length - 4)}.vue`);
+        return Vue.extend((await loader).default);
+    }
+
+    /**
      * 创建组件
      *
      * @param {string} path 路径
@@ -37,8 +50,7 @@ class Framework {
         path: string,
         propsData: object | null = null
     ): Promise<Vue> {
-        const loader = import(`@/${path.substring(2, path.length - 4)}.vue`);
-        const clazz = Vue.extend((await loader).default);
+        const clazz = await this.generateComponentClass(path);
         let options = {};
         if (typeof propsData !== 'undefined' && propsData !== null) {
             options = { ...options, propsData: propsData };
@@ -59,8 +71,8 @@ class Framework {
             return;
         }
 
-        const component = await this.generateComponent(data.component);
-        this.focusComponent.attachComponent(component);
+        const clazz = await this.generateComponentClass(data.component);
+        this.focusComponent.attachComponent(clazz);
     }
 }
 
