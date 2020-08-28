@@ -21,6 +21,8 @@ export default class BaseComponent extends Vue {
             $(this.$el).mouseenter((e: any): void => this._onMouseEnter(e));
             // eslint-disable-next-line
             $(this.$el).mouseleave((e: any): void => this._onMouseLeave(e));
+            // eslint-disable-next-line
+            $(this.$el).mousemove((e: any): void => this._onMouseMove(e));
         }
     }
 
@@ -78,6 +80,13 @@ export default class BaseComponent extends Vue {
     private _onMouseLeave(e: MouseEvent): void {
         console.debug('_onMouseLeave');
         this.setBackgroundHighlight(false);
+        e.stopPropagation();
+    }
+
+    private _onMouseMove(e: MouseEvent): void {
+        if (this.$framework.focusComponent !== this) {
+            this._onMouseEnter(e);
+        }
         e.stopPropagation();
     }
 }
