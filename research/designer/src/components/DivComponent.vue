@@ -1,10 +1,6 @@
 <template>
     <div ref="container" class="container">
-        <component
-            v-for="(child, index) in this.children"
-            :key="index"
-            :is="child"
-        />
+        <component v-for="(child, index) in this.children" :key="index" :is="child" />
     </div>
 </template>
 

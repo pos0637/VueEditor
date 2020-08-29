@@ -44,11 +44,12 @@ export default class BaseComponent extends Vue {
      * @memberof BaseComponent
      */
     public setBackgroundHighlight(highlight: boolean): void {
-        if (highlight) {
+        if (highlight && this.originalStyle === null) {
             this.originalStyle = $(this.$el).css(['background-color']);
             $(this.$el).css({ 'background-color': '#C1E0FF' });
-        } else if (this.originalStyle !== null) {
+        } else if (!highlight && this.originalStyle !== null) {
             $(this.$el).css(this.originalStyle);
+            this.originalStyle = null;
         }
     }
 
@@ -61,8 +62,8 @@ export default class BaseComponent extends Vue {
      */
     private _onMouseEnter(e: MouseEvent): void {
         console.debug('_onMouseEnter');
-        if (this.$framework.focusComponent !== null) {
-            this.$framework.focusComponent.setBackgroundHighlight(false);
+        if (this.$framework.focusComponent !== this) {
+            this.$framework.focusComponent?.setBackgroundHighlight(false);
         }
 
         this.$framework.focusComponent = this;
@@ -80,23 +81,27 @@ export default class BaseComponent extends Vue {
     private _onMouseLeave(e: MouseEvent): void {
         console.debug('_onMouseLeave');
         this.setBackgroundHighlight(false);
+        if (this.$framework.focusComponent === this) {
+            this.$framework.focusComponent = null;
+        }
+
         e.stopPropagation();
     }
 
+    /**
+     * 鼠标移动事件处理函数
+     *
+     * @private
+     * @param {MouseEvent} e 鼠标事件
+     * @memberof BaseComponent
+     */
     private _onMouseMove(e: MouseEvent): void {
         if (this.$framework.focusComponent !== this) {
-            this._onMouseEnter(e);
+            this.$framework.focusComponent?.setBackgroundHighlight(false);
         }
+
+        this.$framework.focusComponent = this;
+        this.setBackgroundHighlight(true);
         e.stopPropagation();
     }
-}
-
-/**
- * 拖拽数据
- *
- * @export
- * @interface DragData
- */
-export interface DragData {
-    component: string;
 }
