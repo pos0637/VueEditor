@@ -26,7 +26,6 @@ export default class DraggableComponent extends Vue {
         $(this.$refs.draggable).draggable({
             cursor: 'move',
             helper: 'clone',
-            zIndex: -1,
             stop: () => this.$framework.attachComponent(this.path)
         });
     }

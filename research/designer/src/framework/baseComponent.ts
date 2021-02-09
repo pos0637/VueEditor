@@ -15,17 +15,6 @@ export default class BaseComponent extends Vue {
     // eslint-disable-next-line
     originalStyle: any = null;
 
-    mounted() {
-        if (typeof this.$el !== 'undefined' && this.$el !== null) {
-            // eslint-disable-next-line
-            $(this.$el).mouseenter((e: any): void => this._onMouseEnter(e));
-            // eslint-disable-next-line
-            $(this.$el).mouseleave((e: any): void => this._onMouseLeave(e));
-            // eslint-disable-next-line
-            $(this.$el).mousemove((e: any): void => this._onMouseMove(e));
-        }
-    }
-
     /**
      * 添加组件
      *
@@ -51,57 +40,5 @@ export default class BaseComponent extends Vue {
             $(this.$el).css(this.originalStyle);
             this.originalStyle = null;
         }
-    }
-
-    /**
-     * 鼠标进入事件处理函数
-     *
-     * @private
-     * @param {MouseEvent} e 鼠标事件
-     * @memberof BaseComponent
-     */
-    private _onMouseEnter(e: MouseEvent): void {
-        console.debug('_onMouseEnter');
-        if (this.$framework.focusComponent !== this) {
-            this.$framework.focusComponent?.setBackgroundHighlight(false);
-        }
-
-        this.$framework.focusComponent = this;
-        this.setBackgroundHighlight(true);
-        e.stopPropagation();
-    }
-
-    /**
-     * 鼠标离开事件处理函数
-     *
-     * @private
-     * @param {MouseEvent} e 鼠标事件
-     * @memberof BaseComponent
-     */
-    private _onMouseLeave(e: MouseEvent): void {
-        console.debug('_onMouseLeave');
-        this.setBackgroundHighlight(false);
-        if (this.$framework.focusComponent === this) {
-            this.$framework.focusComponent = null;
-        }
-
-        e.stopPropagation();
-    }
-
-    /**
-     * 鼠标移动事件处理函数
-     *
-     * @private
-     * @param {MouseEvent} e 鼠标事件
-     * @memberof BaseComponent
-     */
-    private _onMouseMove(e: MouseEvent): void {
-        if (this.$framework.focusComponent !== this) {
-            this.$framework.focusComponent?.setBackgroundHighlight(false);
-        }
-
-        this.$framework.focusComponent = this;
-        this.setBackgroundHighlight(true);
-        e.stopPropagation();
     }
 }
