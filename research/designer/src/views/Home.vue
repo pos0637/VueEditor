@@ -2,6 +2,8 @@
     <div class="home">
         <img alt="Vue logo" src="../assets/logo.png" />
         <Label name="Drag TestComponent" path="@/views/TestComponent.vue" />
+        <Label name="Drag HorizontalLinearLayout" path="@/components/HorizontalLinearLayout.vue" />
+        <Label name="Drag VerticalLinearLayout" path="@/components/VerticalLinearLayout.vue" />
         <DivComponent style="width: 100%; height: 100px;" />
         <AbsoluteLayout style="width: 100%; height: 100px;" />
         <HelloWorld msg="Welcome to Your Vue.js App" />

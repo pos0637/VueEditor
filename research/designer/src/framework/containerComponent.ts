@@ -9,6 +9,7 @@ export default class ContainerComponent extends DraggableComponent {
     mounted() {
         if (this.$framework.editorMode) {
             $(this.$refs[this.getContainer()]).droppable({
+                greedy: true,
                 over: () => this.setBackgroundHighlight(true),
                 out: () => this.setBackgroundHighlight(false),
                 drop: async (event, ui) => {
