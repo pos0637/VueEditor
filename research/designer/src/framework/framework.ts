@@ -69,6 +69,19 @@ class Framework {
 
         return await this.generateComponentClass(this.dragComponent.path);
     }
+
+    /**
+     * 获取样式字符串
+     *
+     * @param {object} data 样式
+     * @return {*} {String} 样式字符串
+     * @memberof Framework
+     */
+    public getStyles(styles: object): string {
+        return JSON.stringify(styles)
+            .replace(/"|{|}/g, '')
+            .replace(/,/g, ';');
+    }
 }
 
 const framework = {

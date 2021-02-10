@@ -12,8 +12,12 @@ export default class ContainerComponent extends BaseComponent {
             out: () => this.setBackgroundHighlight(false),
             drop: async (event, ui) => {
                 this.setBackgroundHighlight(false);
-                const constructor = await this.$framework.generateDragComponent();
-                this.onDropComponent(constructor, event, ui);
+                if (this.containsComponent(this.$framework.dragComponent)) {
+                    this.onMoveComponent(this.getComponentId(this.$framework.dragComponent), event, ui);
+                } else {
+                    const constructor = await this.$framework.generateDragComponent();
+                    this.onDropComponent(constructor, event, ui);
+                }
             }
         });
     }
@@ -28,7 +32,19 @@ export default class ContainerComponent extends BaseComponent {
      * @memberof ContainerComponent
      */
     // eslint-disable-next-line
-    protected onDropComponent(constructor: Constructor, event: JQueryEventObject, ui: JQueryUI.DroppableEventUIParam) {
+    protected onDropComponent(constructor: Constructor, event: JQueryEventObject, ui: JQueryUI.DroppableEventUIParam): void {
         this.attachComponent(constructor);
     }
+
+    /**
+     * 移动组件事件处理函数
+     *
+     * @protected
+     * @param {number} componentId 组件索引
+     * @param {JQueryEventObject} event 事件
+     * @param {JQueryUI.DroppableEventUIParam} ui 参数
+     * @memberof ContainerComponent
+     */
+    // eslint-disable-next-line
+    protected onMoveComponent(componentId: number, event: JQueryEventObject, ui: JQueryUI.DroppableEventUIParam): void {}
 }
