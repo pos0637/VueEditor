@@ -1,8 +1,3 @@
-<template>
-    <div ref="draggable" style="display: inline-block;">{{ name }}</div>
-</template>
-
-<script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import $ from 'jquery';
 import 'jqueryui';
@@ -30,4 +25,3 @@ export default class DraggableComponent extends Vue {
         });
     }
 }
-</script>
