@@ -1,29 +1,67 @@
 import { Constructor } from 'vue/types/options';
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 import $ from 'jquery';
 
+/**
+ * 基础组件
+ *
+ * @export
+ * @class BaseComponent
+ * @extends {Vue}
+ */
 @Component
 export default class BaseComponent extends Vue {
     /**
+     * 位置类型
+     *
+     * @type {(string | undefined)}
+     * @memberof BaseComponent
+     */
+    @Prop() public position?: string | undefined;
+
+    /**
+     * 横坐标
+     *
+     * @type {(number | undefined)}
+     * @memberof BaseComponent
+     */
+    @Prop() public left?: number | undefined;
+
+    /**
+     * 纵坐标
+     *
+     * @type {(number | undefined)}
+     * @memberof BaseComponent
+     */
+    @Prop() public top?: number | undefined;
+
+    /**
      * 子组件列表
      */
-    children: Array<Constructor> = [];
+    protected children: Array<Constructor> = [];
+
+    /**
+     * 子组件参数列表
+     */
+    protected childrenProps: Array<object> = [];
 
     /**
      * 原始风格
      */
     // eslint-disable-next-line
-    originalStyle: any = null;
+    private originalStyle: any = null;
 
     /**
      * 添加组件
      *
      * @protected
      * @param {*} clazz 组件类型
+     * @param {*} props 组件参数
      * @memberof BaseComponent
      */
-    public attachComponent(clazz: Constructor): void {
+    protected attachComponent(clazz: Constructor, props?: object | undefined): void {
         this.children.push(clazz);
+        this.childrenProps.push(props || {});
     }
 
     /**
@@ -32,7 +70,7 @@ export default class BaseComponent extends Vue {
      * @param {boolean} highlight 是否高亮
      * @memberof BaseComponent
      */
-    public setBackgroundHighlight(highlight: boolean): void {
+    protected setBackgroundHighlight(highlight: boolean): void {
         if (highlight && this.originalStyle === null) {
             this.originalStyle = $(this.$el).css(['background-color']);
             $(this.$el).css({ 'background-color': '#C1E0FF' });

@@ -1,6 +1,6 @@
 import Vue from 'vue';
-import BaseComponent from '@/framework/baseComponent';
 import { Constructor } from 'vue/types/options';
+import DraggableComponent from '@/framework/draggableComponent';
 
 declare module 'vue/types/vue' {
     interface Vue {
@@ -15,12 +15,12 @@ declare module 'vue/types/vue' {
  */
 class Framework {
     /**
-     * 焦点组件
+     * 拖拽组件
      *
-     * @type {(BaseComponent | null)}
+     * @type {(DraggableComponent | null)}
      * @memberof Framework
      */
-    public focusComponent: BaseComponent | null = null;
+    public dragComponent: DraggableComponent | null = null;
 
     public foo() {
         console.debug('foo');
@@ -30,7 +30,7 @@ class Framework {
      * 创建组件类型
      *
      * @param {string} path 路径
-     * @return {*}  {Constructor} 组件类型
+     * @return {*} {Constructor} 组件类型
      * @memberof Framework
      */
     public async generateComponentClass(path: string): Promise<Constructor> {
@@ -59,17 +59,15 @@ class Framework {
     /**
      * 添加组件
      *
-     * @param {string} path 路径
-     * @return {*} {Promise<void>}
+     * @return {*} {Promise<Constructor>} 组件类型
      * @memberof Framework
      */
-    public async attachComponent(path: string): Promise<void> {
-        if (this.focusComponent === null) {
-            return;
+    public async generateDragComponent(): Promise<Constructor> {
+        if (this.dragComponent === null) {
+            throw new Error();
         }
 
-        const clazz = await this.generateComponentClass(path);
-        this.focusComponent.attachComponent(clazz);
+        return await this.generateComponentClass(this.dragComponent.path);
     }
 }
 

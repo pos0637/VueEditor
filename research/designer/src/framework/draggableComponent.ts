@@ -1,27 +1,29 @@
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop } from 'vue-property-decorator';
 import $ from 'jquery';
 import 'jqueryui';
+import BaseComponent from '@/framework/baseComponent';
 
 /**
  * 可拖拽组件
  */
 @Component
-export default class DraggableComponent extends Vue {
+export default class DraggableComponent extends BaseComponent {
     /**
      * 名称
      */
-    @Prop() private name!: string;
+    @Prop() public name!: string;
 
     /**
      * 路径
      */
-    @Prop() private path!: string;
+    @Prop() public path!: string;
 
     mounted() {
         $(this.$refs.draggable).draggable({
             cursor: 'move',
             helper: 'clone',
-            stop: () => this.$framework.attachComponent(this.path)
+            start: () => (this.$framework.dragComponent = this),
+            stop: () => (this.$framework.dragComponent = null)
         });
     }
 }
