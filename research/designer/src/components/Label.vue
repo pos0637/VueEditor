@@ -10,5 +10,9 @@ import DraggableComponent from '@/framework/draggableComponent';
  * 标签组件
  */
 @Component
-export default class Label extends DraggableComponent {}
+export default class Label extends DraggableComponent {
+    protected getContainer(): string {
+        return 'draggable';
+    }
+}
 </script>

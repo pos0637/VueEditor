@@ -52,6 +52,17 @@ export default class BaseComponent extends Vue {
     private originalStyle: any = null;
 
     /**
+     * 获取容器名称
+     *
+     * @protected
+     * @return {*} {string} 容器名称
+     * @memberof BaseComponent
+     */
+    protected getContainer(): string {
+        return '';
+    }
+
+    /**
      * 添加组件
      *
      * @protected

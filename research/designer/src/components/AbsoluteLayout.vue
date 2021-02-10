@@ -20,6 +20,10 @@ import ContainerComponent from '@/framework/containerComponent';
 
 @Component
 export default class AbsoluteLayout extends ContainerComponent {
+    protected getContainer(): string {
+        return 'container';
+    }
+
     protected onDropComponent(constructor: Constructor, event: JQueryEventObject, ui: JQueryUI.DroppableEventUIParam): void {
         const containerPosition = $(this.$refs.container).position();
         this.attachComponent(constructor, {

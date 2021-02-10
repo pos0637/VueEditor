@@ -8,6 +8,10 @@ import DraggableComponent from '@/framework/draggableComponent';
 
 @Component
 export default class TestComponent extends DraggableComponent {
+    protected getContainer(): string {
+        return 'draggable';
+    }
+
     private get containerStyles(): object {
         if (typeof this.position !== 'undefined') {
             return {

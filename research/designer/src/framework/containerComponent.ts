@@ -2,12 +2,12 @@ import { Constructor } from 'vue/types/options';
 import { Component } from 'vue-property-decorator';
 import $ from 'jquery';
 import 'jqueryui';
-import BaseComponent from '@/framework/baseComponent';
+import DraggableComponent from '@/framework/draggableComponent';
 
 @Component
-export default class ContainerComponent extends BaseComponent {
+export default class ContainerComponent extends DraggableComponent {
     mounted() {
-        $(this.$refs.container).droppable({
+        $(this.$refs[this.getContainer()]).droppable({
             over: () => this.setBackgroundHighlight(true),
             out: () => this.setBackgroundHighlight(false),
             drop: async (event, ui) => {

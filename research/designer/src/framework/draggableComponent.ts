@@ -19,7 +19,7 @@ export default class DraggableComponent extends BaseComponent {
     @Prop() public path!: string;
 
     mounted() {
-        $(this.$refs.draggable).draggable({
+        $(this.$refs[this.getContainer()]).draggable({
             cursor: 'move',
             helper: 'clone',
             start: () => (this.$framework.dragComponent = this),

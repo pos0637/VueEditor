@@ -16,5 +16,9 @@ import { Component } from 'vue-property-decorator';
 import ContainerComponent from '@/framework/containerComponent';
 
 @Component
-export default class DivComponent extends ContainerComponent {}
+export default class DivComponent extends ContainerComponent {
+    protected getContainer(): string {
+        return 'container';
+    }
+}
 </script>
