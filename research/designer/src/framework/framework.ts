@@ -15,12 +15,28 @@ declare module 'vue/types/vue' {
  */
 class Framework {
     /**
+     * 编辑模式
+     *
+     * @type {boolean}
+     * @memberof Framework
+     */
+    public editorMode = true;
+
+    /**
      * 拖拽组件
      *
      * @type {(DraggableComponent | null)}
      * @memberof Framework
      */
     public dragComponent: DraggableComponent | null = null;
+
+    /**
+     * 焦点组件
+     *
+     * @type {(DraggableComponent | null)}
+     * @memberof Framework
+     */
+    public focusComponent: DraggableComponent | null = null;
 
     public foo() {
         console.debug('foo');
@@ -81,6 +97,23 @@ class Framework {
         return JSON.stringify(styles)
             .replace(/"|{|}/g, '')
             .replace(/,/g, ';');
+    }
+
+    /**
+     * 设置焦点组件
+     *
+     * @param {(DraggableComponent | null)} focusComponent 焦点组件
+     * @memberof Framework
+     */
+    public setFocusComponent(focusComponent: DraggableComponent | null): void {
+        if (this.focusComponent !== null) {
+            this.focusComponent.setBorderHighlight(false);
+        }
+
+        this.focusComponent = focusComponent;
+        if (this.focusComponent !== null) {
+            this.focusComponent.setBorderHighlight(true);
+        }
     }
 }
 

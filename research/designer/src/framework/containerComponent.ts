@@ -7,19 +7,21 @@ import DraggableComponent from '@/framework/draggableComponent';
 @Component
 export default class ContainerComponent extends DraggableComponent {
     mounted() {
-        $(this.$refs[this.getContainer()]).droppable({
-            over: () => this.setBackgroundHighlight(true),
-            out: () => this.setBackgroundHighlight(false),
-            drop: async (event, ui) => {
-                this.setBackgroundHighlight(false);
-                if (this.containsComponent(this.$framework.dragComponent)) {
-                    this.onMoveComponent(this.getComponentId(this.$framework.dragComponent), event, ui);
-                } else {
-                    const constructor = await this.$framework.generateDragComponent();
-                    this.onDropComponent(constructor, event, ui);
+        if (this.$framework.editorMode) {
+            $(this.$refs[this.getContainer()]).droppable({
+                over: () => this.setBackgroundHighlight(true),
+                out: () => this.setBackgroundHighlight(false),
+                drop: async (event, ui) => {
+                    this.setBackgroundHighlight(false);
+                    if (this.containsComponent(this.$framework.dragComponent)) {
+                        this.onMoveComponent(this.getComponentId(this.$framework.dragComponent), event, ui);
+                    } else {
+                        const constructor = await this.$framework.generateDragComponent();
+                        this.onDropComponent(constructor, event, ui);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     /**

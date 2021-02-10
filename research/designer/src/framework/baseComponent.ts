@@ -52,6 +52,38 @@ export default class BaseComponent extends Vue {
     private originalStyle: any = null;
 
     /**
+     * 设置背景高亮
+     *
+     * @param {boolean} highlight 是否高亮
+     * @memberof BaseComponent
+     */
+    public setBackgroundHighlight(highlight: boolean): void {
+        if (highlight && this.originalStyle === null) {
+            this.originalStyle = $(this.$el).css(['background-color', 'border']);
+            $(this.$el).css({ 'background-color': '#C1E0FF' });
+        } else if (!highlight && this.originalStyle !== null) {
+            $(this.$el).css(this.originalStyle);
+            this.originalStyle = null;
+        }
+    }
+
+    /**
+     * 设置边框高亮
+     *
+     * @param {boolean} highlight 是否高亮
+     * @memberof BaseComponent
+     */
+    public setBorderHighlight(highlight: boolean): void {
+        if (highlight && this.originalStyle === null) {
+            this.originalStyle = $(this.$el).css(['background-color', 'border']);
+            $(this.$el).css({ border: '1px dotted gray' });
+        } else if (!highlight && this.originalStyle !== null) {
+            $(this.$el).css(this.originalStyle);
+            this.originalStyle = null;
+        }
+    }
+
+    /**
      * 获取容器名称
      *
      * @protected
@@ -97,21 +129,5 @@ export default class BaseComponent extends Vue {
      */
     protected getComponentId(component: Vue | null): number {
         return component === null ? -1 : this.$children.indexOf(component);
-    }
-
-    /**
-     * 设置背景高亮
-     *
-     * @param {boolean} highlight 是否高亮
-     * @memberof BaseComponent
-     */
-    protected setBackgroundHighlight(highlight: boolean): void {
-        if (highlight && this.originalStyle === null) {
-            this.originalStyle = $(this.$el).css(['background-color']);
-            $(this.$el).css({ 'background-color': '#C1E0FF' });
-        } else if (!highlight && this.originalStyle !== null) {
-            $(this.$el).css(this.originalStyle);
-            this.originalStyle = null;
-        }
     }
 }
