@@ -1,6 +1,6 @@
 <template>
     <div ref="container" class="container">
-        <component v-for="(child, index) in this.children" :key="index" :is="child" v-bind="{ ...childrenProps[index] }" />
+        <component v-for="(child, index) in meta.children" :key="index" :is="child.clazz" v-bind="{ meta: child, ...child.props }" />
     </div>
 </template>
 
@@ -16,6 +16,7 @@
 import { Constructor } from 'vue/types/options';
 import { Component } from 'vue-property-decorator';
 import $ from 'jquery';
+import DraggableComponent from '@/framework/draggableComponent';
 import ContainerComponent from '@/framework/containerComponent';
 
 @Component
@@ -33,12 +34,14 @@ export default class AbsoluteLayout extends ContainerComponent {
         });
     }
 
-    protected onMoveComponent(componentId: number, event: JQueryEventObject, ui: JQueryUI.DroppableEventUIParam): void {
-        this.$set(this.childrenProps, componentId, {
-            ...this.childrenProps[componentId],
-            left: ui.position.left,
-            top: ui.position.top
-        });
+    protected onMoveComponent(component: DraggableComponent | null, event: JQueryEventObject, ui: JQueryUI.DroppableEventUIParam): void {
+        if (component !== null) {
+            component.meta.props = {
+                ...component.meta.props,
+                left: ui.position.left,
+                top: ui.position.top
+            };
+        }
     }
 }
 </script>

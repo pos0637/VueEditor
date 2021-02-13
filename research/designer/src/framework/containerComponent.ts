@@ -4,6 +4,13 @@ import $ from 'jquery';
 import 'jqueryui';
 import DraggableComponent from '@/framework/draggableComponent';
 
+/**
+ * 容器组件
+ *
+ * @export
+ * @class ContainerComponent
+ * @extends {DraggableComponent}
+ */
 @Component
 export default class ContainerComponent extends DraggableComponent {
     mounted() {
@@ -15,7 +22,7 @@ export default class ContainerComponent extends DraggableComponent {
                 drop: async (event, ui) => {
                     this.setBackgroundHighlight(false);
                     if (this.containsComponent(this.$framework.dragComponent)) {
-                        this.onMoveComponent(this.getComponentId(this.$framework.dragComponent), event, ui);
+                        this.onMoveComponent(this.$framework.dragComponent, event, ui);
                     } else {
                         const constructor = await this.$framework.generateDragComponent();
                         this.onDropComponent(constructor, event, ui);
@@ -43,11 +50,11 @@ export default class ContainerComponent extends DraggableComponent {
      * 移动组件事件处理函数
      *
      * @protected
-     * @param {number} componentId 组件索引
+     * @param {DraggableComponent | null} component 组件
      * @param {JQueryEventObject} event 事件
      * @param {JQueryUI.DroppableEventUIParam} ui 参数
      * @memberof ContainerComponent
      */
     // eslint-disable-next-line
-    protected onMoveComponent(componentId: number, event: JQueryEventObject, ui: JQueryUI.DroppableEventUIParam): void {}
+    protected onMoveComponent(component: DraggableComponent | null, event: JQueryEventObject, ui: JQueryUI.DroppableEventUIParam): void {}
 }

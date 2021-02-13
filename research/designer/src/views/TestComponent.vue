@@ -12,18 +12,6 @@ export default class TestComponent extends DraggableComponent {
         return 'draggable';
     }
 
-    private get containerStyles(): object {
-        if (typeof this.position !== 'undefined') {
-            return {
-                position: this.position,
-                left: `${this.left}px`,
-                top: `${this.top}px`
-            };
-        } else {
-            return {};
-        }
-    }
-
     foo() {
         console.debug('TestComponent::foo');
     }

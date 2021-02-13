@@ -3,6 +3,38 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import $ from 'jquery';
 
 /**
+ * 组件元数据
+ *
+ * @export
+ * @interface Meta
+ */
+export interface Meta {
+    /**
+     * 组件类型
+     *
+     * @type {Constructor}
+     * @memberof Meta
+     */
+    clazz: Constructor;
+
+    /**
+     * 参数
+     *
+     * @type {object}
+     * @memberof Meta
+     */
+    props: object;
+
+    /**
+     * 子组件列表
+     *
+     * @type {Array<Meta>}
+     * @memberof Meta
+     */
+    children: Array<Meta>;
+}
+
+/**
  * 基础组件
  *
  * @export
@@ -11,6 +43,14 @@ import $ from 'jquery';
  */
 @Component
 export default class BaseComponent extends Vue {
+    /**
+     * 组件元数据
+     *
+     * @type {(object)}
+     * @memberof BaseComponent
+     */
+    @Prop({ default: () => ({ clazz: null, props: {}, children: [] }) }) public meta!: Meta;
+
     /**
      * 位置类型
      *
@@ -34,16 +74,6 @@ export default class BaseComponent extends Vue {
      * @memberof BaseComponent
      */
     @Prop() public top?: number | undefined;
-
-    /**
-     * 子组件列表
-     */
-    protected children: Array<Constructor> = [];
-
-    /**
-     * 子组件参数列表
-     */
-    protected childrenProps: Array<object> = [];
 
     /**
      * 原始风格
@@ -103,8 +133,13 @@ export default class BaseComponent extends Vue {
      * @memberof BaseComponent
      */
     protected attachComponent(clazz: Constructor, props?: object | undefined): void {
-        this.children.push(clazz);
-        this.childrenProps.push(props || {});
+        this.meta.children.push({
+            clazz: clazz,
+            props: props || {},
+            children: []
+        });
+
+        this.$store.commit('updateHierarchy');
     }
 
     /**
@@ -129,5 +164,25 @@ export default class BaseComponent extends Vue {
      */
     protected getComponentId(component: Vue | null): number {
         return component === null ? -1 : this.$children.indexOf(component);
+    }
+
+    /**
+     * 容器风格
+     *
+     * @readonly
+     * @protected
+     * @type {object} 容器风格
+     * @memberof BaseComponent
+     */
+    protected get containerStyles(): object {
+        if (typeof this.position !== 'undefined') {
+            return {
+                position: this.position,
+                left: `${this.left}px`,
+                top: `${this.top}px`
+            };
+        } else {
+            return {};
+        }
     }
 }

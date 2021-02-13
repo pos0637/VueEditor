@@ -1,6 +1,6 @@
 <template>
     <div ref="container" class="container">
-        <component v-for="(child, index) in this.children" :key="index" :is="child" v-bind="{ ...childrenProps[index] }" />
+        <component v-for="(child, index) in meta.children" :key="index" :is="child.clazz" v-bind="{ meta: child, ...child.props }" />
     </div>
 </template>
 

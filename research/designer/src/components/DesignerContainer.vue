@@ -8,19 +8,22 @@
 .container {
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
 }
 </style>
 
 <script lang="ts">
-import { Component } from 'vue-property-decorator';
+import { Component, Watch } from 'vue-property-decorator';
 import ContainerComponent from '@/framework/containerComponent';
 
 @Component
-export default class VerticalLinearLayout extends ContainerComponent {
+export default class DesignerContainer extends ContainerComponent {
     protected getContainer(): string {
         return 'container';
+    }
+
+    @Watch('$store.state.designer.hierarchy', { immediate: true, deep: true })
+    private onHierarchyChange(val: object) {
+        console.debug(val);
     }
 }
 </script>
