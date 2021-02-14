@@ -869,6 +869,13 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@babel/runtime@^7.7.7":
+  version "7.12.13"
+  resolved "https://registry.npm.taobao.org/@babel/runtime/download/@babel/runtime-7.12.13.tgz?cache=0&sync_timestamp=1612314635545&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40babel%2Fruntime%2Fdownload%2F%40babel%2Fruntime-7.12.13.tgz#0a21452352b02542db0ffb928ac2d3ca7cb6d66d"
+  integrity sha1-CiFFI1KwJULbD/uSisLTyny21m0=
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/template@^7.10.4":
   version "7.10.4"
   resolved "https://registry.npm.taobao.org/@babel/template/download/@babel/template-7.10.4.tgz#3251996c4200ebc71d1a8fc405fba940f36ba278"
@@ -1159,6 +1166,11 @@
   integrity sha1-2U7WCOKVvFQkyWAOa4VlQHtrS2s=
   dependencies:
     source-map "^0.6.1"
+
+"@types/uuid@^8.3.0":
+  version "8.3.0"
+  resolved "https://registry.npm.taobao.org/@types/uuid/download/@types/uuid-8.3.0.tgz#215c231dff736d5ba92410e6d602050cce7e273f"
+  integrity sha1-IVwjHf9zbVupJBDm1gIFDM5+Jz8=
 
 "@types/webpack-dev-server@^3.11.0":
   version "3.11.0"
@@ -3512,6 +3524,23 @@ dotenv@^8.2.0:
   resolved "https://registry.npm.taobao.org/dotenv/download/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
   integrity sha1-l+YZJZradQ7qPk6j4mvO6lQksWo=
 
+drag-event-service@^1.1.7:
+  version "1.1.7"
+  resolved "https://registry.npm.taobao.org/drag-event-service/download/drag-event-service-1.1.7.tgz#aaee3ebfd516bad530bba11ae8e6a85b7f1a83b7"
+  integrity sha1-qu4+v9UWutUwu6Ea6OaoW38ag7c=
+  dependencies:
+    "@babel/runtime" "^7.7.7"
+    helper-js "^2.0.0"
+
+draggable-helper@^5.0.5:
+  version "5.0.6"
+  resolved "https://registry.npm.taobao.org/draggable-helper/download/draggable-helper-5.0.6.tgz#29a772043a61539c0408ca723b0358ec1384723b"
+  integrity sha1-KadyBDphU5wECMpyOwNY7BOEcjs=
+  dependencies:
+    "@babel/runtime" "^7.7.7"
+    drag-event-service "^1.1.7"
+    helper-js "^2.0.0"
+
 duplexer@^0.1.1:
   version "0.1.1"
   resolved "https://registry.npm.taobao.org/duplexer/download/duplexer-0.1.1.tgz?cache=0&sync_timestamp=1585562750138&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fduplexer%2Fdownload%2Fduplexer-0.1.1.tgz#ace6ff808c1ce66b57d1ebf97977acb02334cfc1"
@@ -4599,10 +4628,28 @@ hash.js@^1.0.0, hash.js@^1.0.3:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
 
+he-tree-vue@2:
+  version "2.0.5"
+  resolved "https://registry.npm.taobao.org/he-tree-vue/download/he-tree-vue-2.0.5.tgz#de95d9800476d4e01847e3573333af55810abf2f"
+  integrity sha1-3pXZgAR21OAYR+NXMzOvVYEKvy8=
+  dependencies:
+    "@babel/runtime" "^7.7.7"
+    draggable-helper "^5.0.5"
+    helper-js "^2.0.1"
+    vue-functions "^2.0.6"
+    vue-runtime-helpers "^1.1.2"
+
 he@1.2.x, he@^1.1.0:
   version "1.2.0"
   resolved "https://registry.npm.taobao.org/he/download/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha1-hK5l+n6vsWX922FWauFLrwVmTw8=
+
+helper-js@^2.0.0, helper-js@^2.0.1:
+  version "2.0.3"
+  resolved "https://registry.npm.taobao.org/helper-js/download/helper-js-2.0.3.tgz#cff74d5a071cb624f4c2f1038d56cbca47ab535b"
+  integrity sha1-z/dNWgcctiT0wvEDjVbLykerU1s=
+  dependencies:
+    "@babel/runtime" "^7.7.7"
 
 hex-color-regex@^1.1.0:
   version "1.1.0"
@@ -8721,6 +8768,14 @@ vue-eslint-parser@^7.0.0:
     esquery "^1.0.1"
     lodash "^4.17.15"
 
+vue-functions@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.npm.taobao.org/vue-functions/download/vue-functions-2.0.6.tgz#8dd83d4f60699715f323d7119e10a197b2e63882"
+  integrity sha1-jdg9T2BplxXzI9cRnhChl7LmOII=
+  dependencies:
+    "@babel/runtime" "^7.7.7"
+    helper-js "^2.0.0"
+
 vue-hot-reload-api@^2.3.0:
   version "2.3.4"
   resolved "https://registry.npm.taobao.org/vue-hot-reload-api/download/vue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"
@@ -8765,6 +8820,11 @@ vue-router@^3.2.0:
   version "3.4.2"
   resolved "https://registry.npm.taobao.org/vue-router/download/vue-router-3.4.2.tgz?cache=0&sync_timestamp=1596792104013&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvue-router%2Fdownload%2Fvue-router-3.4.2.tgz#541221d7ac467786c1c9381bcf36019d883b9cf8"
   integrity sha1-VBIh16xGd4bByTgbzzYBnYg7nPg=
+
+vue-runtime-helpers@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.npm.taobao.org/vue-runtime-helpers/download/vue-runtime-helpers-1.1.2.tgz#446b7b820888ab0c5264d2c3a32468e72e4100f3"
+  integrity sha1-RGt7ggiIqwxSZNLDoyRo5y5BAPM=
 
 vue-style-loader@^4.1.0, vue-style-loader@^4.1.2:
   version "4.1.2"

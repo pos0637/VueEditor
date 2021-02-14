@@ -9,9 +9,9 @@ import BaseComponent from '@/framework/baseComponent';
 @Component
 export default class DraggableComponent extends BaseComponent {
     /**
-     * 名称
+     * 标题
      */
-    @Prop() public name!: string;
+    @Prop() public title!: string;
 
     /**
      * 路径

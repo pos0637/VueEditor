@@ -1,5 +1,5 @@
 <template>
-    <div ref="draggable" style="display: inline-block;">{{ name }}</div>
+    <div ref="draggable" style="display: inline-block;">{{ title }}</div>
 </template>
 
 <script lang="ts">

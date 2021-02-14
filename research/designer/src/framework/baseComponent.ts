@@ -1,5 +1,6 @@
 import { Constructor } from 'vue/types/options';
 import { Component, Vue, Prop } from 'vue-property-decorator';
+import { v4 as uuidv4 } from 'uuid';
 import $ from 'jquery';
 
 /**
@@ -9,6 +10,14 @@ import $ from 'jquery';
  * @interface Meta
  */
 export interface Meta {
+    /**
+     * 名称
+     *
+     * @type {string}
+     * @memberof Meta
+     */
+    name: string;
+
     /**
      * 组件类型
      *
@@ -49,7 +58,7 @@ export default class BaseComponent extends Vue {
      * @type {(object)}
      * @memberof BaseComponent
      */
-    @Prop({ default: () => ({ clazz: null, props: {}, children: [] }) }) public meta!: Meta;
+    @Prop({ default: () => ({ text: '', clazz: null, props: {}, children: [] }) }) public meta!: Meta;
 
     /**
      * 位置类型
@@ -128,12 +137,15 @@ export default class BaseComponent extends Vue {
      * 添加组件
      *
      * @protected
-     * @param {*} clazz 组件类型
+     * @param {*} componentPath 组件类型
      * @param {*} props 组件参数
      * @memberof BaseComponent
      */
-    protected attachComponent(clazz: Constructor, props?: object | undefined): void {
+    protected async attachComponent(componentPath: string, props?: object | undefined): Promise<void> {
+        const clazz = await this.$framework.generateComponentClass(componentPath);
+        const className = componentPath.substring(componentPath.lastIndexOf('/') + 1, componentPath.length - 4);
         this.meta.children.push({
+            name: `${className}-${uuidv4()}`,
             clazz: clazz,
             props: props || {},
             children: []

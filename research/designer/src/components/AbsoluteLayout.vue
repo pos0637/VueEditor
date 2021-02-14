@@ -13,7 +13,6 @@
 </style>
 
 <script lang="ts">
-import { Constructor } from 'vue/types/options';
 import { Component } from 'vue-property-decorator';
 import $ from 'jquery';
 import DraggableComponent from '@/framework/draggableComponent';
@@ -25,9 +24,9 @@ export default class AbsoluteLayout extends ContainerComponent {
         return 'container';
     }
 
-    protected onDropComponent(constructor: Constructor, event: JQueryEventObject, ui: JQueryUI.DroppableEventUIParam): void {
+    protected async onDropComponent(componentPath: string, event: JQueryEventObject, ui: JQueryUI.DroppableEventUIParam): Promise<void> {
         const containerPosition = $(this.$refs.container).position();
-        this.attachComponent(constructor, {
+        await this.attachComponent(componentPath, {
             position: 'absolute',
             left: ui.position.left - containerPosition.left,
             top: ui.position.top - containerPosition.top

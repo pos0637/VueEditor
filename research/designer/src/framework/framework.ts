@@ -59,7 +59,7 @@ class Framework {
      *
      * @param {string} path 路径
      * @param {(object | null)} [propsData=null] 参数
-     * @return {*}  {Promise<Vue>} 组件
+     * @return {*} {Promise<Vue>} 组件
      * @memberof Framework
      */
     public async generateComponent(path: string, propsData: object | null = null): Promise<Vue> {
