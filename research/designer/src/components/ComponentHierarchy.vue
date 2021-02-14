@@ -1,6 +1,6 @@
 <template>
     <div ref="container" class="container">
-        <Tree ref="tree" edgeScroll :value="treeData" v-on:change="onTreeChanged">
+        <Tree ref="tree" edgeScroll :value="treeData" :eachDroppable="eachDroppable" v-on:change="onTreeChanged">
             <span slot-scope="{ node, path, tree }">
                 <b @click="tree.toggleFold(node, path)">
                     {{ node.$folded ? '+' : '-' }}
@@ -37,7 +37,6 @@ export default {
     watch: {
         '$store.state.designer.hierarchy': {
             handler: function(newVal) {
-                console.debug(`watch: ${JSON.stringify(newVal)}`);
                 this.data1 = newVal.children;
             },
             immediate: false,
@@ -46,7 +45,15 @@ export default {
     },
     methods: {
         onTreeChanged() {
-            console.debug(JSON.stringify(this.$refs.tree.getPureTreeData()));
+            this.$store.commit('setHierarchy', { children: this.$refs.tree.getPureTreeData() });
+        },
+        eachDroppable(currentPath) {
+            const node = this.$refs.tree.getNodeByPath(currentPath);
+            if (typeof node !== 'undefined') {
+                return typeof node.props.isContainer !== 'undefined' && node.props.isContainer;
+            }
+
+            return true;
         }
     }
 };

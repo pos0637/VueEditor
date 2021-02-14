@@ -12,6 +12,8 @@ import DraggableComponent from '@/framework/draggableComponent';
  */
 @Component
 export default class ContainerComponent extends DraggableComponent {
+    protected isContainer = true;
+
     mounted() {
         if (this.$framework.editorMode) {
             $(this.$refs[this.getContainer()]).droppable({
@@ -41,7 +43,7 @@ export default class ContainerComponent extends DraggableComponent {
      */
     // eslint-disable-next-line
     protected async onDropComponent(componentPath: string, event: JQueryEventObject, ui: JQueryUI.DroppableEventUIParam): Promise<void> {
-        await this.attachComponent(componentPath);
+        await this.attachComponent(componentPath, { isContainer: true });
     }
 
     /**

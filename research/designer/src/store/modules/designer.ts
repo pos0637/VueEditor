@@ -13,7 +13,6 @@ const designer = {
         },
         // eslint-disable-next-line
         updateHierarchy(state: any) {
-            console.debug('updateHierarchy');
             state.hierarchy = { ...state.hierarchy };
         }
     }

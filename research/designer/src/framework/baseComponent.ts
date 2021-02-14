@@ -29,10 +29,11 @@ export interface Meta {
     /**
      * 参数
      *
-     * @type {object}
+     * @type {{[index: string]:any}}
      * @memberof Meta
      */
-    props: object;
+    // eslint-disable-next-line
+    props: { [index: string]: any };
 
     /**
      * 子组件列表
@@ -85,6 +86,14 @@ export default class BaseComponent extends Vue {
     @Prop() public top?: number | undefined;
 
     /**
+     * 是否为容器组件
+     *
+     * @protected
+     * @memberof BaseComponent
+     */
+    protected isContainer = false;
+
+    /**
      * 原始风格
      */
     // eslint-disable-next-line
@@ -131,6 +140,18 @@ export default class BaseComponent extends Vue {
      */
     protected getContainer(): string {
         return '';
+    }
+
+    /**
+     * 组件创建前事件处理函数
+     *
+     * @protected
+     * @memberof BaseComponent
+     */
+    protected created(): void {
+        if (typeof this.meta.props !== 'undefined') {
+            this.meta.props['isContainer'] = this.isContainer;
+        }
     }
 
     /**
