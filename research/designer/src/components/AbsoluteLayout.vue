@@ -20,6 +20,11 @@ import ContainerComponent from '@/framework/containerComponent';
 
 @Component
 export default class AbsoluteLayout extends ContainerComponent {
+    /**
+     * 绝对布局
+     */
+    public isAbsoluteLayout = true;
+
     protected getContainer(): string {
         return 'container';
     }

@@ -33,6 +33,14 @@ export interface PropertyMetaData {
     type?: string;
 
     /**
+     * 是否有效
+     *
+     * @type {(boolean | Function | undefined)}
+     * @memberof PropertyMetaData
+     */
+    enabled?: boolean | Function | undefined;
+
+    /**
      * 值
      *
      * @type {*}
@@ -40,6 +48,16 @@ export interface PropertyMetaData {
      */
     value?: any;
 }
+
+/**
+ * 默认属性元数据
+ */
+const defaultPropertyMetaData: PropertyMetaData = {
+    title: '',
+    type: '',
+    enabled: true,
+    value: undefined
+};
 
 /**
  * 属性注解
@@ -52,7 +70,7 @@ export function Property(metaData: PropertyMetaData | null | undefined = null): 
     // eslint-disable-next-line
     return function(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
         target.constructor.metaData = {
-            [propertyKey]: metaData || {},
+            [propertyKey]: { ...defaultPropertyMetaData, ...metaData },
             ...target.constructor.metaData
         };
     };
@@ -104,7 +122,14 @@ export function setPropertyMetaData(metaData: { [index: string]: PropertyMetaDat
 export function getProperties(metaData: { [index: string]: PropertyMetaData }): { [index: string]: any } {
     const result: { [index: string]: any } = {};
     for (const key in metaData) {
-        result[key] = metaData[key].value;
+        const data = metaData[key];
+        if (typeof data.enabled === 'function') {
+            if (data.enabled(metaData)) {
+                result[key] = metaData[key].value;
+            }
+        } else if (data.enabled) {
+            result[key] = metaData[key].value;
+        }
     }
 
     return result;

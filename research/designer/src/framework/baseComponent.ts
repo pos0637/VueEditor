@@ -79,8 +79,9 @@ export default class BaseComponent extends Vue {
      * @type {(number | undefined)}
      * @memberof BaseComponent
      */
-    @Property({ title: '横坐标' })
+
     @Prop()
+    @Property({ title: '横坐标' })
     public left?: number | undefined;
 
     /**
@@ -89,8 +90,9 @@ export default class BaseComponent extends Vue {
      * @type {(number | undefined)}
      * @memberof BaseComponent
      */
-    @Property({ title: '纵坐标' })
+
     @Prop()
+    @Property({ title: '纵坐标' })
     public top?: number | undefined;
 
     /**
@@ -99,7 +101,7 @@ export default class BaseComponent extends Vue {
      * @protected
      * @memberof BaseComponent
      */
-    @Property({ title: '是否为容器组件', value: false })
+    @Property({ title: '是否为容器组件', enabled: false, value: false })
     protected isContainer = false;
 
     /**
@@ -162,7 +164,6 @@ export default class BaseComponent extends Vue {
     protected async attachComponent(componentPath: string, props?: { [index: string]: any } | undefined): Promise<void> {
         const [clazz, metaData] = await this.$framework.generateComponentClass(componentPath);
         const className = componentPath.substring(componentPath.lastIndexOf('/') + 1, componentPath.length - 4);
-        console.debug(metaData);
         this.metaData.children.push({
             name: `${className}-${uuidv4()}`,
             clazz: clazz,
@@ -207,15 +208,17 @@ export default class BaseComponent extends Vue {
      * @memberof BaseComponent
      */
     protected get containerStyles(): object {
-        if (typeof this.position !== 'undefined') {
-            return {
-                position: this.position,
-                left: `${this.left}px`,
-                top: `${this.top}px`
-            };
-        } else {
-            return {};
+        if (typeof (this.$parent as any)['isAbsoluteLayout'] !== 'undefined' && (this.$parent as any)['isAbsoluteLayout']) {
+            if (typeof this.position !== 'undefined') {
+                return {
+                    position: this.position,
+                    left: `${this.left}px`,
+                    top: `${this.top}px`
+                };
+            }
         }
+
+        return {};
     }
 
     /**
