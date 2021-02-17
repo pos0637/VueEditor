@@ -21,7 +21,7 @@ export default class DesignerContainer extends ContainerComponent {
         return 'container';
     }
 
-    @Watch('$store.state.designer.hierarchy', { immediate: true, deep: true })
+    @Watch('$store.state.designer.hierarchy', { immediate: true, deep: false })
     private onHierarchyChange(val: object) {
         console.debug(val);
     }

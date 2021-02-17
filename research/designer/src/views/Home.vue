@@ -6,19 +6,19 @@
         <Label title="Drag VerticalLinearLayout" path="@/components/VerticalLinearLayout.vue" />
         <Label title="Drag AbsoluteLayout" path="@/components/AbsoluteLayout.vue" />
         <DesignerContainer style="width: 100%; height: 100px;" :metaData="hierarchy" />
-        <HelloWorld msg="Welcome to Your Vue.js App" />
+        <ComponentProperties style="width: 100%; height: 100px;" />
     </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import Label from '@/components/Label.vue';
-import HelloWorld from '@/components/HelloWorld.vue';
 import DesignerContainer from '@/components/DesignerContainer.vue';
 import ComponentHierarchy from '@/components/ComponentHierarchy.vue';
+import ComponentProperties from '@/components/ComponentProperties.vue';
 
 @Component({
-    components: { Label, HelloWorld, DesignerContainer, ComponentHierarchy }
+    components: { Label, DesignerContainer, ComponentHierarchy, ComponentProperties }
 })
 export default class Home extends Vue {
     private get hierarchy(): object {

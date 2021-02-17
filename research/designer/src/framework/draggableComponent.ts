@@ -23,15 +23,15 @@ export default class DraggableComponent extends BaseComponent {
             $(this.$refs[this.getContainer()]).draggable({
                 cursor: 'move',
                 helper: 'clone',
-                start: () => {
-                    this.$framework.setFocusComponent(null);
-                    this.$framework.dragComponent = this;
-                },
+                start: () => (this.$framework.dragComponent = this),
                 stop: () => (this.$framework.dragComponent = null)
             });
 
             $(this.$refs[this.getContainer()]).on('mousedown', event => {
-                this.$framework.setFocusComponent(this);
+                if (this.inDesigner()) {
+                    this.$framework.setFocusComponent(this);
+                    this.$store.commit('setFocusComponent', this);
+                }
                 event.stopPropagation();
             });
         }

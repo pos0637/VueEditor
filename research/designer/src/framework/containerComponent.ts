@@ -32,6 +32,8 @@ export default class ContainerComponent extends DraggableComponent {
                     this.setBackgroundHighlight(false);
                     if (this.containsComponent(this.$framework.dragComponent)) {
                         this.onMoveComponent(this.$framework.dragComponent, event, ui);
+                        this.$framework.setFocusComponent(this.$framework.dragComponent);
+                        this.$store.commit('setFocusComponent', this.$framework.dragComponent);
                     } else if (this.$framework.dragComponent !== null) {
                         this.onDropComponent(this.$framework.dragComponent.path, event, ui);
                     }

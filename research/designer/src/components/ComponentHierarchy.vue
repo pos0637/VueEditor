@@ -1,12 +1,12 @@
 <template>
     <div ref="container" class="container">
         <Tree ref="tree" edgeScroll :value="treeData" :eachDroppable="eachDroppable" v-on:change="onTreeChanged">
-            <span slot-scope="{ node, path, tree }">
+            <div slot-scope="{ node, path, tree }" :style="getNodeStyles(node)" @click="onNodeClick(node)">
                 <b @click="tree.toggleFold(node, path)">
                     {{ node.$folded ? '+' : '-' }}
                 </b>
                 {{ node.name }}
-            </span>
+            </div>
         </Tree>
     </div>
 </template>
@@ -26,6 +26,7 @@ export default {
     components: { Tree: Tree.mixPlugins([Fold, Draggable]) },
     data() {
         return {
+            focusComponent: null,
             rowData: []
         };
     },
@@ -35,15 +36,30 @@ export default {
         }
     },
     watch: {
+        '$store.state.designer.focusComponent': {
+            handler: function(newVal) {
+                this.focusComponent = newVal;
+            },
+            immediate: true
+        },
         '$store.state.designer.hierarchy': {
             handler: function(newVal) {
                 this.rowData = newVal.children;
             },
             immediate: false,
-            deep: true
+            deep: false
         }
     },
     methods: {
+        getNodeStyles(node) {
+            return this.focusComponent && node === this.focusComponent.metaData ? { backgroundColor: '#C1E0FF' } : {};
+        },
+        onNodeClick(node) {
+            if (typeof node.ref !== 'undefined') {
+                this.$framework.setFocusComponent(node.ref);
+                this.$store.commit('setFocusComponent', node.ref);
+            }
+        },
         onTreeChanged() {
             this.$store.commit('setHierarchy', { children: this.$refs.tree.getPureTreeData() });
         },

@@ -39,7 +39,7 @@ export default class AbsoluteLayout extends ContainerComponent {
     }
 
     protected onMoveComponent(component: DraggableComponent | null, event: JQueryEventObject, ui: JQueryUI.DroppableEventUIParam): void {
-        if (component !== null) {
+        if (component !== null && component.inDesigner()) {
             component.metaData.props.left.value = ui.position.left;
             component.metaData.props.top.value = ui.position.top;
             component.metaData.props = {

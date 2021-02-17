@@ -43,6 +43,14 @@ export interface MetaData {
      * @memberof MetaData
      */
     children: Array<MetaData>;
+
+    /**
+     * 组件引用
+     *
+     * @type {*}
+     * @memberof MetaData
+     */
+    ref?: any;
 }
 
 /**
@@ -142,6 +150,26 @@ export default class BaseComponent extends Vue {
     }
 
     /**
+     * 组件是否处于设计器内
+     *
+     * @return {*} {boolean} 组件是否处于设计器内
+     * @memberof BaseComponent
+     */
+    public inDesigner(): boolean {
+        return this.metaData.clazz !== null;
+    }
+
+    /**
+     * 组件创建完成事件处理函数
+     *
+     * @protected
+     * @memberof BaseComponent
+     */
+    protected created(): void {
+        this.metaData.ref = this;
+    }
+
+    /**
      * 获取容器名称
      *
      * @protected
@@ -208,6 +236,7 @@ export default class BaseComponent extends Vue {
      * @memberof BaseComponent
      */
     protected get containerStyles(): object {
+        // 判断父组件是否为绝对布局组件
         if (typeof (this.$parent as any)['isAbsoluteLayout'] !== 'undefined' && (this.$parent as any)['isAbsoluteLayout']) {
             if (typeof this.position !== 'undefined') {
                 return {
