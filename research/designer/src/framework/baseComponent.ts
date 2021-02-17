@@ -78,7 +78,7 @@ export default class BaseComponent extends Vue {
      * @memberof BaseComponent
      */
     @Prop()
-    @Property({ title: '位置类型' })
+    @Property({ title: '位置类型', readonly: true })
     public position?: string | undefined;
 
     /**
@@ -109,7 +109,7 @@ export default class BaseComponent extends Vue {
      * @protected
      * @memberof BaseComponent
      */
-    @Property({ title: '是否为容器组件', enabled: false, value: false })
+    @Property({ title: '是否为容器组件', visiable: false, value: false })
     protected isContainer = false;
 
     /**

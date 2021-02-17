@@ -33,12 +33,20 @@ export interface PropertyMetaData {
     type?: string;
 
     /**
-     * 是否有效
+     * 是否可见
      *
      * @type {(boolean | Function | undefined)}
      * @memberof PropertyMetaData
      */
-    enabled?: boolean | Function | undefined;
+    visiable?: boolean | Function | undefined;
+
+    /**
+     * 只读
+     *
+     * @type {(boolean | Function | undefined)}
+     * @memberof PropertyMetaData
+     */
+    readonly?: boolean | Function | undefined;
 
     /**
      * 值
@@ -55,7 +63,8 @@ export interface PropertyMetaData {
 const defaultPropertyMetaData: PropertyMetaData = {
     title: '',
     type: '',
-    enabled: true,
+    visiable: true,
+    readonly: false,
     value: undefined
 };
 
@@ -123,11 +132,11 @@ export function getProperties(metaData: { [index: string]: PropertyMetaData }): 
     const result: { [index: string]: any } = {};
     for (const key in metaData) {
         const data = metaData[key];
-        if (typeof data.enabled === 'function') {
-            if (data.enabled(metaData)) {
+        if (typeof data.visiable === 'function') {
+            if (data.visiable(metaData)) {
                 result[key] = metaData[key].value;
             }
-        } else if (data.enabled) {
+        } else if (data.visiable) {
             result[key] = metaData[key].value;
         }
     }

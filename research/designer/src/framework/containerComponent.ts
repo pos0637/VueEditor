@@ -19,7 +19,7 @@ export default class ContainerComponent extends DraggableComponent {
      * @protected
      * @memberof ContainerComponent
      */
-    @Property({ title: '是否为容器组件', value: true })
+    @Property({ title: '是否为容器组件', visiable: false, value: true })
     protected isContainer = true;
 
     mounted() {

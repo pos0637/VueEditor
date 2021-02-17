@@ -2,7 +2,7 @@
     <div ref="container" class="container">
         <div>name: {{ focusComponent && focusComponent.metaData.name }}</div>
         <div>props:</div>
-        <div v-for="(prop, key) in focusComponent ? focusComponent.metaData.props : {}" :key="key">{{ key }}: {{ prop.value }}</div>
+        <div v-for="(prop, key) in properties" :key="key">{{ key }}: <input v-model="prop.value" :placeholder="prop.title" :disabled="prop.readonly" /></div>
     </div>
 </template>
 
@@ -19,6 +19,25 @@ export default {
         return {
             focusComponent: null
         };
+    },
+    computed: {
+        properties() {
+            if (this.focusComponent === null) {
+                return {};
+            }
+
+            const result = {};
+            for (const key in this.focusComponent.metaData.props) {
+                const prop = this.focusComponent.metaData.props[key];
+                if (!prop.visiable) {
+                    continue;
+                }
+
+                result[key] = prop;
+            }
+
+            return result;
+        }
     },
     watch: {
         '$store.state.designer.focusComponent': {
