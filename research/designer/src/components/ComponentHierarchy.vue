@@ -26,18 +26,18 @@ export default {
     components: { Tree: Tree.mixPlugins([Fold, Draggable]) },
     data() {
         return {
-            data1: []
+            rowData: []
         };
     },
     computed: {
         treeData() {
-            return this.data1;
+            return this.rowData;
         }
     },
     watch: {
         '$store.state.designer.hierarchy': {
             handler: function(newVal) {
-                this.data1 = newVal.children;
+                this.rowData = newVal.children;
             },
             immediate: false,
             deep: true
@@ -50,7 +50,7 @@ export default {
         eachDroppable(currentPath) {
             const node = this.$refs.tree.getNodeByPath(currentPath);
             if (typeof node !== 'undefined') {
-                return typeof node.props.isContainer !== 'undefined' && node.props.isContainer;
+                return typeof node.props.isContainer !== 'undefined' && node.props.isContainer.value;
             }
 
             return true;

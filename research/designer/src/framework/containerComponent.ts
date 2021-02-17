@@ -1,6 +1,7 @@
 import { Component } from 'vue-property-decorator';
 import $ from 'jquery';
 import 'jqueryui';
+import { Property } from '@/framework/framework';
 import DraggableComponent from '@/framework/draggableComponent';
 
 /**
@@ -12,6 +13,13 @@ import DraggableComponent from '@/framework/draggableComponent';
  */
 @Component
 export default class ContainerComponent extends DraggableComponent {
+    /**
+     * 是否为容器组件
+     *
+     * @protected
+     * @memberof ContainerComponent
+     */
+    @Property({ title: '是否为容器组件', value: true })
     protected isContainer = true;
 
     mounted() {
@@ -43,7 +51,7 @@ export default class ContainerComponent extends DraggableComponent {
      */
     // eslint-disable-next-line
     protected async onDropComponent(componentPath: string, event: JQueryEventObject, ui: JQueryUI.DroppableEventUIParam): Promise<void> {
-        await this.attachComponent(componentPath, { isContainer: true });
+        await this.attachComponent(componentPath);
     }
 
     /**

@@ -1,6 +1,6 @@
 <template>
     <div ref="container" class="container">
-        <component v-for="(child, index) in meta.children" :key="index" :is="child.clazz" v-bind="{ meta: child, ...child.props }" />
+        <component v-for="(child, index) in metaData.children" :key="index" :is="child.clazz" v-bind="{ metaData: child, ...getProperties(child.props) }" />
     </div>
 </template>
 
@@ -35,10 +35,10 @@ export default class AbsoluteLayout extends ContainerComponent {
 
     protected onMoveComponent(component: DraggableComponent | null, event: JQueryEventObject, ui: JQueryUI.DroppableEventUIParam): void {
         if (component !== null) {
-            component.meta.props = {
-                ...component.meta.props,
-                left: ui.position.left,
-                top: ui.position.top
+            component.metaData.props.left.value = ui.position.left;
+            component.metaData.props.top.value = ui.position.top;
+            component.metaData.props = {
+                ...component.metaData.props
             };
         }
     }

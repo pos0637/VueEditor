@@ -1,4 +1,4 @@
-import { Meta } from '@/framework/baseComponent';
+import { MetaData } from '@/framework/baseComponent';
 
 const designer = {
     state: {
@@ -7,11 +7,9 @@ const designer = {
         }
     },
     mutations: {
-        // eslint-disable-next-line
-        setHierarchy(state: any, hierarchy: Meta) {
+        setHierarchy(state: any, hierarchy: MetaData) {
             state.hierarchy = hierarchy;
         },
-        // eslint-disable-next-line
         updateHierarchy(state: any) {
             state.hierarchy = { ...state.hierarchy };
         }

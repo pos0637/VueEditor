@@ -1,20 +1,22 @@
+import Vue from 'vue';
 import { Constructor } from 'vue/types/options';
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Prop } from 'vue-property-decorator';
 import { v4 as uuidv4 } from 'uuid';
 import $ from 'jquery';
+import { Property, PropertyMetaData, setPropertyMetaData, getProperties } from '@/framework/framework';
 
 /**
  * 组件元数据
  *
  * @export
- * @interface Meta
+ * @interface MetaData
  */
-export interface Meta {
+export interface MetaData {
     /**
      * 名称
      *
      * @type {string}
-     * @memberof Meta
+     * @memberof MetaData
      */
     name: string;
 
@@ -22,7 +24,7 @@ export interface Meta {
      * 组件类型
      *
      * @type {Constructor}
-     * @memberof Meta
+     * @memberof MetaData
      */
     clazz: Constructor;
 
@@ -30,18 +32,17 @@ export interface Meta {
      * 参数
      *
      * @type {{[index: string]:any}}
-     * @memberof Meta
+     * @memberof MetaData
      */
-    // eslint-disable-next-line
     props: { [index: string]: any };
 
     /**
      * 子组件列表
      *
      * @type {Array<Meta>}
-     * @memberof Meta
+     * @memberof MetaData
      */
-    children: Array<Meta>;
+    children: Array<MetaData>;
 }
 
 /**
@@ -59,7 +60,8 @@ export default class BaseComponent extends Vue {
      * @type {(object)}
      * @memberof BaseComponent
      */
-    @Prop({ default: () => ({ text: '', clazz: null, props: {}, children: [] }) }) public meta!: Meta;
+    @Prop({ default: () => ({ text: '', clazz: null, props: {}, children: [] }) })
+    public metaData!: MetaData;
 
     /**
      * 位置类型
@@ -67,7 +69,9 @@ export default class BaseComponent extends Vue {
      * @type {(string | undefined)}
      * @memberof BaseComponent
      */
-    @Prop() public position?: string | undefined;
+    @Prop()
+    @Property({ title: '位置类型' })
+    public position?: string | undefined;
 
     /**
      * 横坐标
@@ -75,7 +79,9 @@ export default class BaseComponent extends Vue {
      * @type {(number | undefined)}
      * @memberof BaseComponent
      */
-    @Prop() public left?: number | undefined;
+    @Property({ title: '横坐标' })
+    @Prop()
+    public left?: number | undefined;
 
     /**
      * 纵坐标
@@ -83,7 +89,9 @@ export default class BaseComponent extends Vue {
      * @type {(number | undefined)}
      * @memberof BaseComponent
      */
-    @Prop() public top?: number | undefined;
+    @Property({ title: '纵坐标' })
+    @Prop()
+    public top?: number | undefined;
 
     /**
      * 是否为容器组件
@@ -91,12 +99,12 @@ export default class BaseComponent extends Vue {
      * @protected
      * @memberof BaseComponent
      */
+    @Property({ title: '是否为容器组件', value: false })
     protected isContainer = false;
 
     /**
      * 原始风格
      */
-    // eslint-disable-next-line
     private originalStyle: any = null;
 
     /**
@@ -143,32 +151,22 @@ export default class BaseComponent extends Vue {
     }
 
     /**
-     * 组件创建前事件处理函数
-     *
-     * @protected
-     * @memberof BaseComponent
-     */
-    protected created(): void {
-        if (typeof this.meta.props !== 'undefined') {
-            this.meta.props['isContainer'] = this.isContainer;
-        }
-    }
-
-    /**
      * 添加组件
      *
      * @protected
-     * @param {*} componentPath 组件类型
-     * @param {*} props 组件参数
+     * @param {string} componentPath 组件类型
+     * @param {({ [index: string]: any } | undefined)} [props] 组件参数
+     * @return {*} {Promise<void>}
      * @memberof BaseComponent
      */
-    protected async attachComponent(componentPath: string, props?: object | undefined): Promise<void> {
-        const clazz = await this.$framework.generateComponentClass(componentPath);
+    protected async attachComponent(componentPath: string, props?: { [index: string]: any } | undefined): Promise<void> {
+        const [clazz, metaData] = await this.$framework.generateComponentClass(componentPath);
         const className = componentPath.substring(componentPath.lastIndexOf('/') + 1, componentPath.length - 4);
-        this.meta.children.push({
+        console.debug(metaData);
+        this.metaData.children.push({
             name: `${className}-${uuidv4()}`,
             clazz: clazz,
-            props: props || {},
+            props: setPropertyMetaData(metaData, props || {}),
             children: []
         });
 
@@ -195,6 +193,7 @@ export default class BaseComponent extends Vue {
      * @return {*} {number} 索引
      * @memberof BaseComponent
      */
+
     protected getComponentId(component: Vue | null): number {
         return component === null ? -1 : this.$children.indexOf(component);
     }
@@ -217,5 +216,17 @@ export default class BaseComponent extends Vue {
         } else {
             return {};
         }
+    }
+
+    /**
+     * 获取参数
+     *
+     * @protected
+     * @param {{ [index: string]: PropertyMetaData }} metaData 属性元数据
+     * @return {*}  {{ [index: string]: any }} 参数
+     * @memberof BaseComponent
+     */
+    protected getProperties(metaData: { [index: string]: PropertyMetaData }): { [index: string]: any } {
+        return getProperties(metaData);
     }
 }
