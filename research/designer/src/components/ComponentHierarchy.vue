@@ -2,7 +2,7 @@
     <div ref="container" class="container">
         <Tree ref="tree" edgeScroll :value="treeData" :eachDroppable="eachDroppable" v-on:change="onTreeChanged">
             <div slot-scope="{ node, path, tree }" :style="getNodeStyles(node)" @click="onNodeClick(node)">
-                <b @click="tree.toggleFold(node, path)">
+                <b v-if="node.children.length > 0" @click="tree.toggleFold(node, path)">
                     {{ node.$folded ? '+' : '-' }}
                 </b>
                 {{ node.name }}

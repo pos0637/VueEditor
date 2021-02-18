@@ -30,7 +30,11 @@ export default class AbsoluteLayout extends ContainerComponent {
     }
 
     protected async onDropComponent(componentPath: string, event: JQueryEventObject, ui: JQueryUI.DroppableEventUIParam): Promise<void> {
-        const containerPosition = $(this.$refs.container).position();
+        const containerPosition = $(this.$refs.container).offset();
+        if (typeof containerPosition === 'undefined') {
+            return;
+        }
+
         await this.attachComponent(componentPath, {
             position: 'absolute',
             left: ui.position.left - containerPosition.left,

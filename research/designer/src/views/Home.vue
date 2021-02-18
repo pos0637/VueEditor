@@ -5,7 +5,7 @@
         <Label title="Drag HorizontalLinearLayout" path="@/components/HorizontalLinearLayout.vue" />
         <Label title="Drag VerticalLinearLayout" path="@/components/VerticalLinearLayout.vue" />
         <Label title="Drag AbsoluteLayout" path="@/components/AbsoluteLayout.vue" />
-        <DesignerContainer style="width: 100%; height: 100px;" :metaData="hierarchy" />
+        <DesignerContainer style="width: 100%; height: 300px;" :metaData="hierarchy" />
         <ComponentProperties style="width: 100%; height: 100px;" />
     </div>
 </template>
