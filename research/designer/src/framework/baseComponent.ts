@@ -72,16 +72,6 @@ export default class BaseComponent extends Vue {
     public metaData!: MetaData;
 
     /**
-     * 位置类型
-     *
-     * @type {(string | undefined)}
-     * @memberof BaseComponent
-     */
-    @Prop()
-    @Property({ title: '位置类型', readonly: true })
-    public position?: string | undefined;
-
-    /**
      * 横坐标
      *
      * @type {(number | undefined)}
@@ -236,18 +226,28 @@ export default class BaseComponent extends Vue {
      * @memberof BaseComponent
      */
     protected get containerStyles(): object {
-        // 判断父组件是否为绝对布局组件
-        if (typeof (this.$parent as any)['isAbsoluteLayout'] !== 'undefined' && (this.$parent as any)['isAbsoluteLayout']) {
-            if (typeof this.position !== 'undefined') {
-                return {
-                    position: this.position,
-                    left: `${this.left}px`,
-                    top: `${this.top}px`
-                };
-            }
-        }
+        const styles = {
+            left: `${this.left}px`,
+            top: `${this.top}px`
+        };
 
-        return {};
+        if (typeof this.$parent !== 'undefined' && this.$parent !== null) {
+            return (this.$parent as BaseComponent).getChildContainerStyles(styles);
+        } else {
+            return styles;
+        }
+    }
+
+    /**
+     * 获取子组件容器风格
+     *
+     * @protected
+     * @param {object} styles 子组件容器风格
+     * @return {*} {object} 处理后子组件容器风格
+     * @memberof BaseComponent
+     */
+    protected getChildContainerStyles(styles: object): object {
+        return styles;
     }
 
     /**

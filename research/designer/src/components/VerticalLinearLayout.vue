@@ -22,5 +22,11 @@ export default class VerticalLinearLayout extends ContainerComponent {
     protected getContainer(): string {
         return 'container';
     }
+
+    protected getChildContainerStyles(styles: object): object {
+        delete styles['left'];
+        delete styles['top'];
+        return styles;
+    }
 }
 </script>

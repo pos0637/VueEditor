@@ -20,11 +20,6 @@ import ContainerComponent from '@/framework/containerComponent';
 
 @Component
 export default class AbsoluteLayout extends ContainerComponent {
-    /**
-     * 绝对布局
-     */
-    public isAbsoluteLayout = true;
-
     protected getContainer(): string {
         return 'container';
     }
@@ -36,7 +31,6 @@ export default class AbsoluteLayout extends ContainerComponent {
         }
 
         await this.attachComponent(componentPath, {
-            position: 'absolute',
             left: ui.position.left - containerPosition.left,
             top: ui.position.top - containerPosition.top
         });
@@ -50,6 +44,13 @@ export default class AbsoluteLayout extends ContainerComponent {
                 ...component.metaData.props
             };
         }
+    }
+
+    protected getChildContainerStyles(styles: object): object {
+        return {
+            ...styles,
+            position: 'absolute'
+        };
     }
 }
 </script>
