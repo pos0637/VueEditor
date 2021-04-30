@@ -3,9 +3,10 @@
         <div ref="container" class="container">
             <component v-for="(child, index) in metaData.children" :key="index" :is="child.clazz" v-bind="{ metaData: child, ...getProperties(child.props) }" />
         </div>
-        <div class="backgroundLayer">
+        <div class="rulerLayer">
             <vue-ruler-tool :parent="true" :is-scale-revise="true"> </vue-ruler-tool>
         </div>
+        <div class="backgroundLayer" />
     </div>
 </template>
 
@@ -16,7 +17,16 @@
     height: 100%;
 }
 
-.backgroundLayer {
+.container {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    padding: 19px 0px 0px 19px;
+}
+
+.rulerLayer {
     position: absolute;
     left: 0px;
     top: 0px;
@@ -25,13 +35,16 @@
     z-index: -1;
 }
 
-.container {
+.backgroundLayer {
     position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100%;
-    padding: 19px 0px 0px 19px;
+    left: 19px;
+    top: 19px;
+    width: calc(100% - 19px);
+    height: calc(100% - 19px);
+    z-index: -2;
+    background: white;
+    background-image: linear-gradient(white 14px, transparent 0), linear-gradient(90deg, #58a 1px, transparent 0);
+    background-size: 15px 15px, 15px 15px;
 }
 </style>
 

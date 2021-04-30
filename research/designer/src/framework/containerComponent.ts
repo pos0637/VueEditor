@@ -53,7 +53,11 @@ export default class ContainerComponent extends DraggableComponent {
      */
     // eslint-disable-next-line
     protected async onDropComponent(componentPath: string, event: JQueryEventObject, ui: JQueryUI.DroppableEventUIParam): Promise<void> {
-        await this.attachComponent(componentPath);
+        await this.attachComponent(componentPath, {
+            position: 'absolute',
+            left: 0,
+            top: 0
+        });
     }
 
     /**
