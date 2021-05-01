@@ -1,11 +1,11 @@
 <template>
-    <div ref="container" class="container">
+    <div ref="container" class="container-AbsoluteLayout">
         <component v-for="(child, index) in metaData.children" :key="index" :is="child.clazz" v-bind="{ metaData: child, ...getProperties(child.props) }" />
     </div>
 </template>
 
 <style scoped>
-.container {
+.container-AbsoluteLayout {
     width: 100%;
     height: 100%;
     position: relative;
@@ -31,8 +31,8 @@ export default class AbsoluteLayout extends ContainerComponent {
         }
 
         await this.attachComponent(componentPath, {
-            left: ui.position.left - containerPosition.left,
-            top: ui.position.top - containerPosition.top
+            left: ui.offset.left - containerPosition.left,
+            top: ui.offset.top - containerPosition.top
         });
     }
 

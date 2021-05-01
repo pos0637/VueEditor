@@ -5,7 +5,7 @@
                 <ComponentHierarchy style="width: 100%; height: 100%;" />
             </div>
             <multipane-resizer></multipane-resizer>
-            <div style="height: 50%; background: #eee;">
+            <div style="height: 50%; background: #eee; flex-grow: 1;">
                 <Label title="Drag TestComponent" path="@/views/TestComponent.vue" />
                 <Label title="Drag HorizontalLinearLayout" path="@/components/HorizontalLinearLayout.vue" />
                 <Label title="Drag VerticalLinearLayout" path="@/components/VerticalLinearLayout.vue" />
