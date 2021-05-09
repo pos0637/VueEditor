@@ -211,6 +211,17 @@ class Framework {
     }
 
     /**
+     * 获取组件属性元数据
+     *
+     * @param {Vue} instance 组件
+     * @return {*} {{ [index: string]: PropertyMetaData }} 属性元数据
+     * @memberof Framework
+     */
+    public getComponentMetaData(instance: Vue): { [index: string]: PropertyMetaData } {
+        return _.cloneDeep(getPropertyMetaData(instance.constructor));
+    }
+
+    /**
      * 获取样式字符串
      *
      * @param {object} data 样式

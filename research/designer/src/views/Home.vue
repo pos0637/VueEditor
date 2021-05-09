@@ -6,10 +6,11 @@
             </div>
             <multipane-resizer></multipane-resizer>
             <div style="height: 50%; background: #eee; flex-grow: 1;">
-                <Label title="Drag TestComponent" path="@/views/TestComponent.vue" />
-                <Label title="Drag HorizontalLinearLayout" path="@/components/HorizontalLinearLayout.vue" />
-                <Label title="Drag VerticalLinearLayout" path="@/components/VerticalLinearLayout.vue" />
-                <Label title="Drag AbsoluteLayout" path="@/components/AbsoluteLayout.vue" />
+                <DraggableLabel title="Label" path="@/components/basic/Label.vue" />
+                <DraggableLabel title="Tabs" path="@/components/navigation/Tabs.vue" />
+                <DraggableLabel title="HorizontalLinearLayout" path="@/components/layouts/HorizontalLinearLayout.vue" />
+                <DraggableLabel title="VerticalLinearLayout" path="@/components/layouts/VerticalLinearLayout.vue" />
+                <DraggableLabel title="AbsoluteLayout" path="@/components/layouts/AbsoluteLayout.vue" />
             </div>
         </multipane>
         <multipane-resizer></multipane-resizer>
@@ -38,6 +39,7 @@
 
 .center-layout {
     width: 100%;
+    z-index: 0;
 }
 
 .right-layout {
@@ -115,13 +117,13 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Multipane, MultipaneResizer } from 'vue-multipane';
-import Label from '@/components/Label.vue';
-import DesignerContainer from '@/components/DesignerContainer.vue';
-import ComponentHierarchy from '@/components/ComponentHierarchy.vue';
-import ComponentProperties from '@/components/ComponentProperties.vue';
+import DraggableLabel from '@/components/designer/DraggableLabel.vue';
+import DesignerContainer from '@/components/designer/DesignerContainer.vue';
+import ComponentHierarchy from '@/components/designer/ComponentHierarchy.vue';
+import ComponentProperties from '@/components/designer/ComponentProperties.vue';
 
 @Component({
-    components: { Multipane, MultipaneResizer, Label, DesignerContainer, ComponentHierarchy, ComponentProperties }
+    components: { Multipane, MultipaneResizer, DraggableLabel, DesignerContainer, ComponentHierarchy, ComponentProperties }
 })
 export default class Home extends Vue {
     private get hierarchy(): object {

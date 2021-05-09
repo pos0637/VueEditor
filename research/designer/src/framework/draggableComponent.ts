@@ -18,7 +18,7 @@ export default class DraggableComponent extends BaseComponent {
      */
     @Prop() public path!: string;
 
-    mounted() {
+    protected mounted() {
         if (this.$framework.editorMode) {
             $(this.$refs[this.getContainer()]).draggable({
                 cursor: 'move',

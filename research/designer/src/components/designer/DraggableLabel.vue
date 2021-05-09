@@ -7,10 +7,10 @@ import { Component } from 'vue-property-decorator';
 import DraggableComponent from '@/framework/draggableComponent';
 
 /**
- * 标签组件
+ * 可拖拽标签组件
  */
 @Component
-export default class Label extends DraggableComponent {
+export default class DraggableLabel extends DraggableComponent {
     protected getContainer(): string {
         return 'draggable';
     }

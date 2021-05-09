@@ -23,10 +23,10 @@ export interface MetaData {
     /**
      * 组件类型
      *
-     * @type {Constructor}
+     * @type {Constructor | undefined | null}
      * @memberof MetaData
      */
-    clazz: Constructor;
+    clazz: Constructor | undefined | null;
 
     /**
      * 参数
@@ -157,6 +157,14 @@ export default class BaseComponent extends Vue {
      */
     protected created(): void {
         this.metaData.ref = this;
+
+        // 创建组件后将属性值赋值为当前值以便处理属性默认值
+        this.syncPropertiesValue();
+    }
+
+    protected mounted(): void {
+        // 同步子组件以便支持容器组件硬编码
+        this.syncChildren();
     }
 
     /**
@@ -260,5 +268,44 @@ export default class BaseComponent extends Vue {
      */
     protected getProperties(metaData: { [index: string]: PropertyMetaData }): { [index: string]: any } {
         return getProperties(metaData);
+    }
+
+    /**
+     * 同步属性值
+     *
+     * @private
+     * @memberof BaseComponent
+     */
+    private syncPropertiesValue(): void {
+        for (const key in this.metaData.props) {
+            const prop = this.metaData.props[key];
+            if (!prop.visiable) {
+                continue;
+            }
+
+            prop.value = this[key];
+        }
+    }
+
+    /**
+     * 同步子组件
+     *
+     * @private
+     * @memberof BaseComponent
+     */
+    private syncChildren(): void {
+        for (const child of this.$children) {
+            if (child instanceof BaseComponent) {
+                const metaData = {
+                    name: `${child.constructor.name}-${uuidv4()}`,
+                    clazz: null,
+                    props: this.$framework.getComponentMetaData(child),
+                    children: []
+                };
+
+                this.metaData.children.push(metaData);
+                child.$set(child, 'metaData', metaData);
+            }
+        }
     }
 }

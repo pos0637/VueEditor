@@ -2,7 +2,7 @@
     <div ref="container" class="container">
         <div>name: {{ focusComponent && focusComponent.metaData.name }}</div>
         <div>props:</div>
-        <div v-for="(prop, key) in properties" :key="key">{{ key }}: <input v-model="prop.value" :placeholder="prop.title" :disabled="prop.readonly" /></div>
+        <div v-for="(prop, key) in properties" :key="key">{{ prop.title }}: <input v-model="prop.value" :placeholder="prop.title" :disabled="prop.readonly" /></div>
     </div>
 </template>
 
