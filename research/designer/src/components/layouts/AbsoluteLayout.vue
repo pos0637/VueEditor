@@ -1,7 +1,7 @@
 <template>
     <div ref="container" class="container-AbsoluteLayout">
         <slot />
-        <component v-for="(child, index) in metaData.children" :key="index" :is="child.clazz" v-bind="{ metaData: child, ...getProperties(child.props) }" />
+        <component v-for="(child, index) in computedMetaData.children" :key="index" :is="child.clazz" v-bind="{ metaData: child, ...getProperties(child.props) }" />
     </div>
 </template>
 

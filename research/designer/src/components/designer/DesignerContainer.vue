@@ -1,7 +1,7 @@
 <template>
     <div class="root">
         <div ref="container" class="container">
-            <component v-for="(child, index) in metaData.children" :key="index" :is="child.clazz" v-bind="{ metaData: child, ...getProperties(child.props) }" />
+            <component v-for="(child, index) in computedMetaData.children" :key="index" :is="child.clazz" v-bind="{ metaData: child, ...getProperties(child.props) }" />
         </div>
         <div class="rulerLayer">
             <vue-ruler-tool :parent="true" :is-scale-revise="true"> </vue-ruler-tool>

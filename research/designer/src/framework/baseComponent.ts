@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import { Constructor } from 'vue/types/options';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component, Prop, Watch } from 'vue-property-decorator';
 import { v4 as uuidv4 } from 'uuid';
 import $ from 'jquery';
 import { Property, PropertyMetaData, setPropertyMetaData, getProperties } from '@/framework/framework';
@@ -92,6 +92,14 @@ export default class BaseComponent extends Vue {
     @Prop()
     @Property({ title: '纵坐标' })
     public top?: number | undefined;
+
+    /**
+     * 组件元数据
+     *
+     * @type {(object)}
+     * @memberof BaseComponent
+     */
+    public computedMetaData?: MetaData | undefined | null = this.metaData;
 
     /**
      * 是否为容器组件
@@ -190,7 +198,7 @@ export default class BaseComponent extends Vue {
     protected async attachComponent(componentPath: string, props?: { [index: string]: any } | undefined): Promise<void> {
         const [clazz, metaData] = await this.$framework.generateComponentClass(componentPath);
         const className = componentPath.substring(componentPath.lastIndexOf('/') + 1, componentPath.length - 4);
-        this.metaData.children.push({
+        this.computedMetaData?.children.push({
             name: `${className}-${uuidv4()}`,
             clazz: clazz,
             props: setPropertyMetaData(metaData, props || {}),
@@ -271,6 +279,19 @@ export default class BaseComponent extends Vue {
     }
 
     /**
+     * 监控组件元数据改变事件处理函数
+     *
+     * @private
+     * @param {MetaData} val 新值
+     * @memberof BaseComponent
+     */
+    @Watch('metaData')
+    private onMetaDataChanged(val: MetaData) {
+        this.computedMetaData = val;
+        this.syncChildren(val);
+    }
+
+    /**
      * 同步属性值
      *
      * @private
@@ -291,20 +312,28 @@ export default class BaseComponent extends Vue {
      * 同步子组件
      *
      * @private
+     * @param {(MetaData | undefined | null)} [metaData=undefined] 组件元数据
      * @memberof BaseComponent
      */
-    private syncChildren(): void {
+    private syncChildren(metaData: MetaData | undefined | null = undefined): void {
+        let i = 0;
         for (const child of this.$children) {
             if (child instanceof BaseComponent) {
-                const metaData = {
-                    name: `${child.constructor.name}-${uuidv4()}`,
-                    clazz: null,
-                    props: this.$framework.getComponentMetaData(child),
-                    children: []
-                };
+                let childMetaData: MetaData;
+                if (typeof metaData === 'undefined' || metaData === null) {
+                    childMetaData = {
+                        name: `${child.constructor.name}-${uuidv4()}`,
+                        clazz: null,
+                        props: this.$framework.getComponentMetaData(child),
+                        children: []
+                    };
 
-                this.metaData.children.push(metaData);
-                child.$set(child, 'metaData', metaData);
+                    this.metaData.children.push(childMetaData);
+                } else {
+                    childMetaData = metaData.children[i++];
+                }
+
+                child.computedMetaData = childMetaData;
             }
         }
     }
